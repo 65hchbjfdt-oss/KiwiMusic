@@ -10,7 +10,7 @@ import { getActiveEvents } from '@/lib/supabase';
 
 export function HomePage() {
   const { user } = useAuth();
-  const { playTrack, currentTrack, isPlaying } = usePlayer();
+  
   const [popular, setPopular] = useState<Track[]>([]);
   const [kiwiFlow, setKiwiFlow] = useState<Track[]>([]);
   const [regional, setRegional] = useState<Track[]>([]);
