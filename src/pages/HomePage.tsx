@@ -5,7 +5,6 @@ import { useAuth } from '@/hooks/useAuth';
 import { GlassCard } from '@/components/ui-custom';
 import type { Track } from '@/types';
 import { cn } from '@/lib/utils';
-import { getPopularTracks, getKiwiFlow, getNewReleases, getTopByCountry, getCountryByIp } from '@/lib/jamendo';
 import { getActiveEvents } from '@/lib/supabase';
 
 export function HomePage() {
@@ -21,16 +20,12 @@ export function HomePage() {
 
   useEffect(() => {
     Promise.all([
-      getPopularTracks(10),
-      getKiwiFlow(['electronic','pop','rock','chill','jazz'], 20),
-      getCountryByIp(),
       getActiveEvents(),
     ]).then(async ([pop, kiwi, country, eventsData]) => {
       setPopular(pop);
       setKiwiFlow(kiwi);
       setCountryCode(country);
       setEvents(eventsData.data || []);
-      const reg = await getTopByCountry(country, 10);
       setRegional(reg);
     }).catch(console.error).finally(() => setLoading(false));
   }, []);
@@ -143,7 +138,6 @@ export function HomePage() {
 function NewReleasesSection() {
   const { playTrack } = usePlayer();
   const [tracks, setTracks] = useState<Track[]>([]);
-  useEffect(()=>{getNewReleases(8).then(setTracks).catch(console.error);},[]);
   return (
     <div className="mb-6 px-4">
       <div className="flex items-center gap-2 mb-3">

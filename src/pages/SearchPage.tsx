@@ -2,9 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Search, Clock, TrendingUp, X } from 'lucide-react';
 import { usePlayer } from '@/hooks/usePlayer';
 import { GlassCard } from '@/components/ui-custom';
-import { cn } from '@/lib/utils';
 import type { Track } from '@/types';
-import { searchJamendo, getPopularTracks } from '@/lib/jamendo';
 
 const HISTORY_KEY = 'kiwi_search_history';
 const TRENDING = ['Lofi hip hop','Rock classics','Electronic','Jazz relax','Chill beats','Study music'];
@@ -23,7 +21,6 @@ export function SearchPage() {
     if (!q.trim()) { setResults([]); return; }
     setLoading(true);
     try {
-      const tracks = await searchJamendo(q, 20);
       setResults(tracks);
       // Save to history
       setHistory(prev => {
